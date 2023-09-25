@@ -161,9 +161,9 @@ func ParseWithSpecialTableName(dest interface{}, cacheStore *sync.Map, namer Nam
 	if specialTableName != "" && specialTableName != tableName {
 		tableName = specialTableName
 	}
-	tableNameFromField := modelValue.Elem().FieldByName("TABLEName").String()
-	if tableNameFromField != "" {
-		tableName = tableNameFromField
+	field, ok := modelType.FieldByName("Table_Name")
+	if ok && field.Tag.Get("tableName") != "" {
+		tableName = field.Tag.Get("tableName")
 	}
 
 	schema := &Schema{
